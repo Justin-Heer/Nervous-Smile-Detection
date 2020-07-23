@@ -43,6 +43,8 @@ elif 'annotations.csv' in os.listdir():
         else:
             break
 
+states = {'a': 'happy', 'l': 'embarrassed', 'g': 'bad'}
+
 for count, image_path in enumerate(image_paths):
     if count <= prev_image_id:
         continue
@@ -53,7 +55,7 @@ for count, image_path in enumerate(image_paths):
     # change the key press into something meaningful.
     cv2.imshow("Current_image", image)
 
-    print('Annotate: a = Happy, l = Embarrassed, y = Quit')
+    print('Annotate: a = Happy, l = Embarrassed, g = bad image, y = Quit')
     while True:
         try:
             state = chr(cv2.waitKey(0))
@@ -63,13 +65,23 @@ for count, image_path in enumerate(image_paths):
         if state == 'y':
             cv2.destroyAllWindows()
             sys.exit()
-        elif state != 'a' and state != 'l':
+        elif state != 'a' and state != 'l' and state != 'g':
             print("you entered %s, this is not valid" % state)
             print('Annotate: a = Happy, l = Embarrassed ')
             continue
         else:
             # success
             break
+
+    state = states[state]
+
+    if state == 'bad':
+        print('bad image')
+        res = [count, state, 'NA', 'NA']
+        with open(r'annotations.csv', 'a', newline='') as fd:
+            writer = csv.writer(fd)
+            writer.writerow(res)
+        continue
 
     print('Choose emotion intensity between 1:7')
     while True:
