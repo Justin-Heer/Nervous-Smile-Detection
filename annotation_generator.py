@@ -17,12 +17,13 @@ import sys
 
 dir_path = 'dataset-master/'
 images_subset = os.listdir(dir_path)
+images_subset.sort(key=lambda x: int(x[:-4]))
 image_paths = [os.path.join(dir_path, image_path) for image_path
                in images_subset]
 
 # Create annotations.csv if it does not exist in current directory
 if 'annotations.csv' not in os.listdir():
-    prev_image_id = 0
+    prev_image_id = -1
     with open("annotations.csv", 'w', newline='') as new_csv:
         annotator_initial = input("Enter first letter of last name ")
         header = ['img_num',
@@ -86,12 +87,12 @@ for count, image_path in enumerate(image_paths):
     print('Choose emotion intensity between 1:7')
     while True:
         try:
-            intensity = chr(cv2.waitKey(0))
-            int(intensity)
+            intensity = int(cv2.waitKey(0)-ord('0'))
+            
         except ValueError:
             print("you entered %s, this is not valid" % intensity)
             continue
-        if int(intensity) < 1 or int(intensity) > 7:
+        if intensity < 1 or intensity > 7:
             print("you entered %s, this is not valid" % intensity)
             print('Choose emotion intensity between 1:7')
             continue
@@ -101,12 +102,12 @@ for count, image_path in enumerate(image_paths):
     print('Choose your annotation confidence between 1:7')
     while True:
         try:
-            confidence = chr(cv2.waitKey(0))
-            int(confidence)
+            confidence = int(cv2.waitKey(0)-ord('0'))
+            
         except ValueError:
             print("you entered %s, this is not valid" % confidence)
             continue
-        if int(confidence) < 1 or int(confidence) > 7:
+        if confidence < 1 or confidence > 7:
             print("you entered %s, this is not valid" % confidence)
             print('Choose emotion intensity between 1:7')
             continue
