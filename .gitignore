@@ -1,1 +1,3 @@
 *.ipynb_checkpoints
+*webcam-images
+*test
