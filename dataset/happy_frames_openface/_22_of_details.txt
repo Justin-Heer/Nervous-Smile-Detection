@@ -1,0 +1,13 @@
+Input:C:\justins_files\School\CMPT 419\Project\CMPT419-term-project\dataset\happy_frames\_22
+Input full path:C:\justins_files\School\CMPT 419\Project\CMPT419-term-project\dataset\happy_frames\_22
+Camera parameters:500,500,320,240
+Output HOG:_22.hog
+Output video:_22.avi
+Output aligned directory:_22_aligned
+Output csv:_22.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1

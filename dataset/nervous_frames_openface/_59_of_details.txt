@@ -1,0 +1,13 @@
+Input:C:\justins_files\School\CMPT 419\Project\CMPT419-term-project\dataset\nervous_frames\_59
+Input full path:C:\justins_files\School\CMPT 419\Project\CMPT419-term-project\dataset\nervous_frames\_59
+Camera parameters:312.5,312.5,250,112.5
+Output HOG:_59.hog
+Output video:_59.avi
+Output aligned directory:_59_aligned
+Output csv:_59.csv
+Gaze: 1
+AUs: 1
+Landmarks 2D: 1
+Landmarks 3D: 1
+Pose: 1
+Shape parameters: 1
