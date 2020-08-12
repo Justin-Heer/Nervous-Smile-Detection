@@ -1,13 +1,19 @@
 # import necessary libraries
+
+# import python built-in libraries
 import os
 import cv2
 import dlib
 import sys
 import re
-import numpy as np
 from glob import glob
+
+# import external libraries
 import tensorflow as tf
+import numpy as np
 from imutils.face_utils import rect_to_bb
+
+# import keras functions
 from keras_vggface.vggface import VGGFace
 from keras_vggface.utils import preprocess_input
 from keras.layers import Dense, Dropout, Bidirectional
@@ -15,18 +21,26 @@ from keras.models import Sequential
 from keras.layers.recurrent import LSTM
 from keras.optimizers import SGD
 from keras.utils import np_utils
-from tensorflow.keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint
+from keras.callbacks import EarlyStopping
+
+# import sklearn functions
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+
+# import plotting utilities
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 # a function that creates a CNN model
 def create_cnn():
     # create the pre-trained VGG-Face model
-    cnn_model = VGGFace(model='resnet50', include_top=False, input_shape=(224, 224, 3), weights=None)
+    cnn_model = VGGFace(model='vgg16', include_top=False, input_shape=(224, 224, 3), weights=None)
 
     # load the weights from the pre-trained model
-    cnn_model.load_weights('rcmalli_vggface_tf_notop_resnet50.h5')
+    cnn_model.load_weights('rcmalli_vggface_tf_notop_vgg16.h5')
 
     # compile the model
     cnn_model.compile(optimizer=SGD(), loss='categorical_crossentropy', metrics=['accuracy'])
@@ -248,12 +262,12 @@ def extract_features_dir_2(fdir, cnn_model):
 # namely, zero-pad to make time-series
 # of the same length
 def generate_batch(x_samples, y_samples, batch_size, expected_frames):
-    num_batches = len(x_samples) // batch_size
+    num_batches = int(np.ceil(len(x_samples) / batch_size))
 
     while True:
         for batchIdx in range(0, num_batches):
             start = batchIdx * batch_size
-            end = (batchIdx + 1) * batch_size
+            end = np.min([(batchIdx + 1) * batch_size, len(x_samples)])
             x_data = []
             for k in range(start, end):
                 x = x_samples[k]
@@ -366,15 +380,27 @@ def main():
                                 mode='max')
 
     # set the epochs
-    N_EPOCHS = 30
+    N_EPOCHS = 50
+
+    # a callback that interrupts training early when there is no more progress
+    # to avoid wasting time and resources
+    early_stopper = EarlyStopping(patience=5, verbose=1, restore_best_weights=True)
+
+    # calculate the number of batches
+
+    # for the training set
+    n_batches_train = int(np.ceil(len(X_train) / batch_size))
+
+    # for the validation set
+    n_batches_val = int(np.ceil(len(X_val) / batch_size))
 
     # fit the model to data
     h = lstm_model.fit(train_gen,
                        epochs=N_EPOCHS,
-                       steps_per_epoch=len(X_train) // batch_size,
+                       steps_per_epoch=n_batches_train,
                        validation_data=val_gen,
-                       validation_steps=len(X_val) // batch_size,
-                       verbose=1, callbacks=[opt_saver])
+                       validation_steps=n_batches_val,
+                       verbose=1, callbacks=[opt_saver, early_stopper])
 
     # retrieve the optimal results
     val_accu_max = max(h.history["val_accuracy"])
@@ -388,10 +414,10 @@ def main():
     # plot the training + validation loss and accuracy
     plt.style.use("ggplot")
     plt.figure()
-    plt.plot(np.arange(0, N_EPOCHS), h.history["loss"], label="train_loss")
-    plt.plot(np.arange(0, N_EPOCHS), h.history["val_loss"], label="val_loss")
-    plt.plot(np.arange(0, N_EPOCHS), h.history["accuracy"], label="accuracy")
-    plt.plot(np.arange(0, N_EPOCHS), h.history["val_accuracy"], label="val_accuracy")
+    plt.plot(h.history["loss"], label="train_loss")
+    plt.plot(h.history["val_loss"], label="val_loss")
+    plt.plot(h.history["accuracy"], label="accuracy")
+    plt.plot(h.history["val_accuracy"], label="val_accuracy")
     plt.title("Training Loss and Accuracy")
     plt.xlabel("Epoch #")
     plt.ylabel("Loss/Accuracy")
@@ -426,6 +452,37 @@ def main():
 
     # print the test result
     print(f'The test accuracy for this model is {accu_test[1] * 100:0.2f}%')
+
+    # print the statistics
+
+    # calculate the number of batches
+    # for the test set
+    n_batches_test = int(np.ceil(len(X_test) / batch_size))
+
+    # get the prediction
+    y_prediction = lstm_model.predict(test_gen,
+                                      steps=n_batches_test,
+                                      verbose=1)
+
+    # get the predicted labels for each sample
+    # y_pred = [np.argmax(y_prediction[i]) for i in range(y_prediction.shape[0])]
+    y_pred = np.argmax(y_prediction, axis=-1)
+
+    # get the ground truth labels
+    y_true = [np.argmax(y_test[i]) for i in range(y_test.shape[0])]
+
+    # use strings to represent each category
+    target_names = ['nervous', 'happy']
+
+    # compute the statistics
+    print(classification_report(y_true, y_pred, target_names=target_names))
+
+    # compute the confusion matrix
+    cm = confusion_matrix(y_true, y_pred)
+
+    # plot the confusion matrix
+    # as a seaborn heatmap
+    sns.heatmap(cm, annot=True)
 
 
 if __name__ == '__main__':
