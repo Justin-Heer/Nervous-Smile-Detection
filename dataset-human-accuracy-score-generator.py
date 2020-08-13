@@ -114,7 +114,6 @@ for imageDir in imageDirs[len(y_pred):]:
                 sys.exit()
 
             cv2.destroyAllWindows()
-            print('ere')
             break
         except ValueError:
             print('Replaying video')
