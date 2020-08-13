@@ -480,9 +480,24 @@ def main():
     # compute the confusion matrix
     cm = confusion_matrix(y_true, y_pred)
 
+    # print the confusion matrix
+    print(cm)
+
     # plot the confusion matrix
     # as a seaborn heatmap
-    sns.heatmap(cm, annot=True)
+
+    # plot the heat map
+    heat_map = sns.heatmap(cm, annot=True, cmap='hot')
+
+    # set the tick labels
+    heat_map.set_xticklabels(['Predicted Nervous', 'Predicted Happy'])
+    heat_map.set_yticklabels(['True Nervous', 'True Happy'])
+
+    # set the title
+    heat_map.set_title('The Confusion Matrix')
+    
+    # show the plot
+    plt.show()
 
 
 if __name__ == '__main__':
