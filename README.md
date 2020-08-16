@@ -109,7 +109,7 @@ not do as well as we had hoped. We considered the prospect of quickly throwing
 together a TCN, however we thought it would be better to perform 
 hyperparameter tuning on the model we had already built. Our project has 
 undergone considerable change over the course of the past couple months, what
-you see now is just the final product not all the steps it took to get here. 
+you see now is just the final product not all the steps it took to get here.        
 
 
 
