@@ -46,7 +46,7 @@ reccommend gcc with g++ for windows users. MacOS users...you're on your own here
 We have already extracted the OpenFace outputs and included them in the repository
 thus OpenFace is not required to run any scripts
 
-Tensorflow version $>=$ 2.2 is required, the rest of the libraries used are listed
+Tensorflow version >= 2.2 is required, the rest of the libraries used are listed
 in the requirements.txt file included in the repository. The reccommended method
 to setup your environment is to use Anaconda which will read the requirements.txt
 file and construct the environment accordingly
@@ -83,13 +83,34 @@ file and construct the environment accordingly
     |
     |--README.md #This file that you are reading
     |
+    |--SVM-baseline.ipynb # This is our baseline classifier
+    |
     |--VGG-face+BiLSTM.py # The main NN trained for our project
     |
-    |--
-
+    |--action-unit-occurence-by-smile.png # An image that is plotted
+    |
+    |--dataset-human-accuracy-score-generator.py #Dataset annotation script
+    |
+    |--dataset-human-accuracy-score-tester.py # tests output of generator
+    |
+    |--exploratory-analysis.ipynb #Showcases a simple exploration into the dataset
+    |
+    |--frame_extraction_util.ipynb #Used by researchers to extract frames
 
 
 <!-- Self Evaluation -->
 ## Self Evaluation
+
+Our algorithm is able to differeniate between nervous and happy smiles, but
+not with great accuracy as we had hoped. We were able to use OpenFace, an SVM 
+and a CNN+BiLSTM NN. We were not able to test a TCN due to time constraints. 
+Our NN model was able to do better than our baseline SVM model however it did 
+not do as well as we had hoped. We considered the prospect of quickly throwing
+together a TCN, however we thought it would be better to perform 
+hyperparameter tuning on the model we had already built. Our project has 
+undergone considerable change over the course of the past couple months, what
+you see now is just the final product not all the steps it took to get here. 
+
+
 
 
