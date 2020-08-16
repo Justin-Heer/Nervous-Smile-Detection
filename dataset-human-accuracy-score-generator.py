@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 13 07:03:34 2020
-
-@author: justin
-
-Annotation optimal human level accuracy score test.
-
 The purpose of this script is to watch each video and classify it as either
 happy or nervous, we will use the accuracy score generated as a benchmark for
-our algorithm
+our algorithm. This test was conducted several weeks after the dataset was 
+constructed, these videos also do not include audio like they did when 
+the annotations were first completed. As such these scores serve as the
+best human level accuracy scores possible, and are the upper limit of what 
+we think our algorithm could achieve reasonably. There is no need for the 
+marker to execute this script in its entirity however if you wish to try a 
+couple iterations to see how it works remember to delete or rename 
+'annotations_imageDirs.csv' if it exists in the directory.
 """
+# Import required libraries
 
 import os
 import cv2
@@ -19,8 +21,18 @@ import csv
 
 
 def create_image_paths(path):
-    # looks inside path dir and returns a list of paths to
-    # each item in the dir
+    '''
+    Parameters
+    ----------
+    path : string 
+        path to image dir
+
+    Returns
+    -------
+    list
+        list of paths to each item in the directory
+
+    '''
 
     return [os.path.join(path, imagePath) for imagePath in os.listdir(path)]
 

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Aug 13 09:51:37 2020
+The purpose of this script is to test the output of 
+'dataset-human-accuracy-score-generator.py' to determine the classification
+accuracy of the tester. This script is intended for the researchers to use
+so there are no failsafes or error messages implemented as its pretty simple
 
-@author: justi
 """
 
 import os
