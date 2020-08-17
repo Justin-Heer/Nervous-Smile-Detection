@@ -90,17 +90,25 @@ script runs perfectly, although it takes much longer with GPU access.
     |
     |--SVM-baseline.ipynb # This is our baseline classifier
     |
-    |--VGG-face+BiLSTM.py # The main NN trained for our project
-    |
     |--action-unit-occurence-by-smile.png # An image that is plotted
+    |
+    |--biLSTM_tuned.h5 # h5 model file, so markers do not have to train 
+    |
+    |--cnn_lstm_model.py # MAIN MODEL, CNN+BiLSTM model
+    |
+    |--cnn_lstm_tuning.py # Used in cnn_lstm_model.py after feature extraction
     |
     |--dataset-human-accuracy-score-generator.py #Dataset annotation script
     |
     |--dataset-human-accuracy-score-tester.py # tests output of generator
     |
+    |--dataset_resnet50.npz # CNN output to save runtime
+    |
     |--exploratory-analysis.ipynb #Showcases a simple exploration into the dataset
     |
     |--frame_extraction_util.ipynb #Used by researchers to extract frames
+    |
+    |--rcmalli_vggface_tf_notop_resnet50.h5 # another model 
 
 
 <!-- Self Evaluation -->
