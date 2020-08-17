@@ -51,6 +51,11 @@ in the requirements.txt file included in the repository. The reccommended method
 to setup your environment is to use Anaconda which will read the requirements.txt
 file and construct the environment accordingly
 
+NVIDIA GPU WARNING: If you do not have an NVIDIA GPU you will need to comment out the 
+tf.config.experimental.set_memory_growth(gpu[0], True) lines and any others
+that cause an error because of it. We have tested all scripts on both AMD and
+NVIDIA systems and as long the lines giving the error are commented out the 
+script runs perfectly, although it takes much longer with GPU access.
 
 <!-- Structure -->
 ## Structure
