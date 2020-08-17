@@ -417,7 +417,7 @@ def main():
 
     # a callback that interrupts training early when there is no more progress
     # to avoid wasting time and resources
-    early_stopper = EarlyStopping(patience=10, verbose=1, restore_best_weights=True)
+    early_stopper = EarlyStopping(patience=5, verbose=1, restore_best_weights=True)
 
     # calculate the number of batches
 
@@ -457,13 +457,6 @@ def main():
     plt.ylabel("Loss/Accuracy")
     plt.legend()
     plt.show()
-
-    # if 'q' key is pressed, stop the loop
-    # print('Press q to exit and any other key to continue~')
-    # key = cv2.waitKey(0)
-    # check the pressed key
-    # if (key & 0xFF) == ord("q"):
-    #    sys.exit(0)
 
     # the start of the testing part
     print('The testing of the trained model~')

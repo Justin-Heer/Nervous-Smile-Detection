@@ -24,6 +24,8 @@ gpu = tf.config.experimental.list_physical_devices('GPU')
 # set the memory growth to True
 tf.config.experimental.set_memory_growth(gpu[0], True)
 
+# set the log directory to your previous one
+# if you want to continue a previously stopped tuning
 logdir = None
 
 # set the root directory of the log
@@ -31,6 +33,8 @@ root = 'logs'
 
 if logdir is None:
     # set the directory of the logs for this run
+    # by formatting date and time
+    # if you start a new tuning
     logdir = os.path.join(root, datetime.datetime.now().strftime('%Y%m%d-%H%M'))
 
 # hyper parameters to experiment with
