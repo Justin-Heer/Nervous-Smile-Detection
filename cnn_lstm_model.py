@@ -339,7 +339,7 @@ def main():
     tf.config.experimental.set_memory_growth(gpu[0], True)
 
     # check if saved files exist
-    if not os.path.exists('dataset.npz'):
+    if not os.path.exists('dataset_resnet50.npz'):
         # construct the path for the directory of happy smiles
         dir_happy = os.path.join('.', 'happy_frames')
 
@@ -362,11 +362,11 @@ def main():
         labels = np.concatenate((np.ones(len(features_happy)), np.zeros(len(features_awkward))), axis=0)
 
         # save features and labels to file
-        np.savez_compressed('dataset', f=features, l=labels)
+        np.savez_compressed('dataset_resnet50', f=features, l=labels)
 
     else:
         # load features from the saved file
-        data = np.load('dataset.npz')
+        data = np.load('dataset_resnet50.npz')
 
         # turn on allow_pickle
         data.allow_pickle = True
