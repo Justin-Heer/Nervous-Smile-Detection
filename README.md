@@ -104,6 +104,10 @@ script runs perfectly, although it takes much longer with GPU access.
     |
     |--dataset_resnet50.npz # CNN output to save runtime
     |
+    |--environment.txt # list of packages in the env, for anaconda
+    |
+    |--environment.yml # list of packages in the env, for anaconda
+    |
     |--exploratory-analysis.ipynb #Showcases a simple exploration into the dataset
     |
     |--frame_extraction_util.ipynb #Used by researchers to extract frames
