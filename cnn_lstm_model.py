@@ -474,22 +474,22 @@ def main():
     # IMPORTANT for CATEGORICAL_CROSSENTROPY!
     y_test = np_utils.to_categorical(y_test, 2)
 
-    # calculate the number of batches
-    # for the test set
-    n_batches_test = int(np.ceil(len(X_test) / batch_size))
-
     # generator for validating the LSTM model
     test_gen = generate_batch(X_test, y_test, batch_size, expected_frames)
 
     # checks the models performance
     accu_test = lstm_model.evaluate(test_gen,
-                                    steps=n_batches_test,
+                                    steps=len(X_test) // batch_size,
                                     verbose=1)
 
     # print the test result
     print(f'The test accuracy for this model is {accu_test[1] * 100:0.2f}%')
 
     # print the statistics
+
+    # calculate the number of batches
+    # for the test set
+    n_batches_test = int(np.ceil(len(X_test) / batch_size))
 
     # get the prediction
     y_prediction = lstm_model.predict(test_gen,
