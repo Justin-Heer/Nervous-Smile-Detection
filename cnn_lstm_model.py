@@ -57,7 +57,6 @@ def create_bi_lstm(n_frames, n_tokens):
     # create a bidirectional LSTM-RNN
     lstm_model.add(Bidirectional(LSTM(units=32, return_sequences=False),
                                  input_shape=(n_frames, n_tokens)))
-
     lstm_model.add(Dense(64, activation='relu'))
     lstm_model.add(Dropout(0.5))
     lstm_model.add(Dense(96, activation='relu'))
@@ -474,22 +473,22 @@ def main():
     # IMPORTANT for CATEGORICAL_CROSSENTROPY!
     y_test = np_utils.to_categorical(y_test, 2)
 
+    # calculate the number of batches
+    # for the test set
+    n_batches_test = int(np.ceil(len(X_test) / batch_size))
+
     # generator for validating the LSTM model
     test_gen = generate_batch(X_test, y_test, batch_size, expected_frames)
 
     # checks the models performance
     accu_test = lstm_model.evaluate(test_gen,
-                                    steps=len(X_test) // batch_size,
+                                    steps=n_batches_test,
                                     verbose=1)
 
     # print the test result
     print(f'The test accuracy for this model is {accu_test[1] * 100:0.2f}%')
 
     # print the statistics
-
-    # calculate the number of batches
-    # for the test set
-    n_batches_test = int(np.ceil(len(X_test) / batch_size))
 
     # get the prediction
     y_prediction = lstm_model.predict(test_gen,
