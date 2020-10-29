@@ -127,24 +127,28 @@ if __name__ == '__main__':
     else:
         # start time
         minute_s = (sframe_num / fps) // 60
-        second_s = (sframe_num / fps) - minute_s * 60
-        print('Start time: {:02d}:{:02.4f}'.format(int(minute_s), second_s))
+        second_s = (sframe_num / fps) - int(minute_s) * 60
+        millisecond_s = (second_s - int(second_s)) * 1000
+
+        print('Start time: {:02d}:{:02d}.{:3d}'.format(int(minute_s), int(second_s), int(millisecond_s)))
         # end time
         minute_e = ((sframe_num + len(lst) - 1) / fps) // 60
-        second_e = ((sframe_num + len(lst) - 1) / fps) - minute_e * 60
-        print('End time: {:02d}:{:02.4f}'.format(int(minute_e), second_e))
+        second_e = ((sframe_num + len(lst) - 1) / fps) - int(minute_e) * 60
+        millisecond_e = (second_e - int(second_e)) * 1000
+
+        print('End time: {:02d}:{:02d}.{:3d}'.format(int(minute_e), int(second_e), int(millisecond_e)))
 
         # update start time
-        df.loc[filt, 'start'] = '{:02d}:{:02.4f}'.format(int(minute_s), second_s)
+        df.loc[filt, 'start'] = '{:02d}:{:02d}.{:3d}'.format(int(minute_s), int(second_s), int(millisecond_s))
 
         # update end time
-        df.loc[filt, 'end'] = '{:02d}:{:02.4f}'.format(int(minute_e), second_e)
+        df.loc[filt, 'end'] = '{:02d}:{:02d}.{:3d}'.format(int(minute_e), int(second_e), int(millisecond_e))
 
         # compute the Structural Similarity Index (SSIM)
         ssim_val = ssim(frames, frameS, multichannel=True)
 
         # Print the SSIM value
-        print("The similarity index is {:02.2f}%".format(ssim_val * 100))
+        print("The similarity index is {:.2f}%".format(ssim_val * 100))
 
         # save the file
         df.to_csv('Smile_dataset_dataset_companion.csv', index=False)
