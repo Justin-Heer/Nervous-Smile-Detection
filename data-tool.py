@@ -128,23 +128,23 @@ if __name__ == '__main__':
         # start time
         minute_s = (sframe_num / fps) // 60
         second_s = (sframe_num / fps) - minute_s * 60
-        print('Start time: {:02d}:{:0.4f}'.format(int(minute_s), second_s))
+        print('Start time: {:02d}:{:02.4f}'.format(int(minute_s), second_s))
         # end time
         minute_e = ((sframe_num + len(lst) - 1) / fps) // 60
         second_e = ((sframe_num + len(lst) - 1) / fps) - minute_e * 60
-        print('End time: {:02d}:{:0.4f}'.format(int(minute_e), second_e))
+        print('End time: {:02d}:{:02.4f}'.format(int(minute_e), second_e))
 
         # update start time
-        df.loc[filt, 'start'] = '{:02d}:{:0.4f}'.format(int(minute_s), second_s)
+        df.loc[filt, 'start'] = '{:02d}:{:02.4f}'.format(int(minute_s), second_s)
 
         # update end time
-        df.loc[filt, 'end'] = '{:02d}:{:0.4f}'.format(int(minute_e), second_e)
+        df.loc[filt, 'end'] = '{:02d}:{:02.4f}'.format(int(minute_e), second_e)
 
         # compute the Structural Similarity Index (SSIM)
         ssim_val = ssim(frames, frameS, multichannel=True)
 
         # Print the SSIM value
-        print("The similarity index is {:0.2f}%".format(ssim_val * 100))
+        print("The similarity index is {:02.2f}%".format(ssim_val * 100))
 
         # save the file
         df.to_csv('Smile_dataset_dataset_companion.csv', index=False)
