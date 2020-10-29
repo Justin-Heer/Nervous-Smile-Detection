@@ -131,7 +131,7 @@ if __name__ == '__main__':
         print('Start time: {:02d}:{:0.4f}'.format(int(minute_s), second_s))
         # end time
         minute_e = ((sframe_num + len(lst) - 1) / fps) // 60
-        second_e = ((sframe_num + len(lst) - 1) / fps) - minute_s * 60
+        second_e = ((sframe_num + len(lst) - 1) / fps) - minute_e * 60
         print('End time: {:02d}:{:0.4f}'.format(int(minute_e), second_e))
 
         # update start time
